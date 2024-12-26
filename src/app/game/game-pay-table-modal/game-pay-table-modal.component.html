@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h4 class="modal-title">Pay Table</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+
+<div class="modal-body">
+
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th scope="col">Symbol</th>
+      <th scope="col">Win chance</th>
+      <th scope="col">Prize</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (cardData of payTable; track $index;) {
+        <tr>
+          <td>{{ cardData.symbol }}</td>
+          <td>{{ (cardData.weight * 100 / deckSize).toFixed(3) }}%</td>
+          <td>${{ (cardData.multiplier * bet).toFixed(2) }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+</div>

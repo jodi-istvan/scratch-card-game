@@ -1,0 +1,34 @@
+<div class="modal-header">
+  <h4 class="modal-title">Game History</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+
+<div class="modal-body">
+  <div class=" d-flex flex-column justify-content-center align-items-start">
+
+    @if (gameHistoryList.length > 0) {
+      @for (gameHistory of gameHistoryList; track gameHistory.time; let last = $last) {
+        <div>
+          <div>Time: {{ gameHistory.time | date: "YYYY/MM/dd" }}</div>
+          <div>Bet Value: ${{ gameHistory.bet.toFixed(2) }}</div>
+          <div>
+            <span>Symbols: </span>
+            @for (symbol of gameHistory.symbols; track $index; let last = $last) {
+              <span>{{ symbol }}</span>
+              @if (!last) {
+                <span>, </span>
+              }
+            }
+          </div>
+          <div>Outcome: ${{ gameHistory.won.toFixed(2) }}</div>
+        </div>
+        @if (!last) {
+          <hr class="w-100">
+        }
+      }
+    } @else {
+      No games played yet
+    }
+
+  </div>
+</div>

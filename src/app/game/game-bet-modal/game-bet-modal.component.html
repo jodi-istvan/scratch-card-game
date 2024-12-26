@@ -1,0 +1,21 @@
+<div class="modal-header">
+  <h4 class="modal-title">Choose Bet</h4>
+  <button type="button" class="btn-close" aria-label="Close" (click)="close()"></button>
+</div>
+<div class="modal-body d-flex justify-content-center align-items-center">
+
+  @for (betOption of betOptions; track betOption) {
+    <div class="mx-1">
+      <input
+        type="radio"
+        class="btn-check"
+        name="options"
+        autocomplete="off"
+        (click)="selectedBet = betOption"
+        [id]="'bet-option-' + betOption"
+        [checked]="betOption === selectedBet">
+      <label class="btn btn-outline-primary" [for]="'bet-option-' + betOption">${{ betOption.toFixed(2) }}</label>
+    </div>
+  }
+
+</div>

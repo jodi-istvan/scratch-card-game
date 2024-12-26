@@ -1,0 +1,11 @@
+<div class="h-100 d-flex flex-column justify-content-center align-items-center">
+  <button class="btn btn-outline-info" (click)="openPayTableModal()">Pay Table</button>
+  <button class="btn btn-outline-info" (click)="openGameHistoryModal()">Game History</button>
+  <button class="btn btn-outline-info" (click)="openBetModal()">Bet: ${{ bet.toFixed(2) }}</button>
+  @if (gameState === GameState.STARTED) {
+    <button class="btn btn-primary" (click)="revealCards()">Reveal cards</button>
+  } @else {
+    <button class="btn btn-primary" (click)="startGame()">Wager</button>
+  }
+  <div>Balance: ${{ balance.toFixed(2) }}</div>
+</div>
