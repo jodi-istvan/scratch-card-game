@@ -56,10 +56,10 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private readonly app: Application = new Application();
   private readonly cards: Card[] = [];
-  private readonly appBackgroundColor = '#9bbd7a'
+  private readonly gameBackgroundColor = '#999999'
 
-  public readonly gameWidth = 800;
-  public readonly gameHeight = 800;
+  public readonly gameWidth = 500;
+  public readonly gameHeight = 600;
 
   private readonly cardWidth = 175 * 0.7;
   private readonly cardHeight = 250 * 0.7;
@@ -75,7 +75,7 @@ export class GameComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    await this.app.init({ width: this.gameWidth, height: this.gameHeight, backgroundColor: this.appBackgroundColor });
+    await this.app.init({ width: this.gameWidth, height: this.gameHeight, backgroundAlpha: 0 });
     this.gameContainer.nativeElement.appendChild(this.app.canvas);
 
     const table = this.createTable();
@@ -205,7 +205,7 @@ export class GameComponent implements OnInit, OnDestroy {
   private createTable(): Container {
     const rows = 3;
     const cols = 3;
-    const cardMargin = 10;
+    const cardMargin = 20;
 
     const tableContainer = new Container();
     tableContainer.x = this.app.screen.width / 2 - ((cols * this.cardWidth + (cols - 1) * cardMargin) / 2);

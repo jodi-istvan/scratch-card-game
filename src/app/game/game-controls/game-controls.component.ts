@@ -3,7 +3,6 @@ import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {GameBetModalComponent} from '../game-bet-modal/game-bet-modal.component';
 import {cardDataList, GameBet} from '../game.component';
 import {GameService, GameState} from '../game-service/game.service';
-import {GameResultModalComponent} from '../game-result-modal/game-result-modal.component';
 import {GameHistoryModalComponent} from '../game-history-modal/game-history-modal.component';
 import {GamePayTableModalComponent} from '../game-pay-table-modal/game-pay-table-modal.component';
 

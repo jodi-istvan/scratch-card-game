@@ -1,2 +1,19 @@
 @import 'bootstrap/scss/bootstrap';
+@import 'bootstrap/scss/mixins/buttons';
 
+/**
+  Bootstrap button colors overwrite
+ */
+
+$primaryColor: #8054AB;
+$secondaryColor: #614081;
+
+.btn-primary {
+  @include button-variant($primaryColor, $secondaryColor);
+  border-width: 5px !important;
+}
+
+.btn-secondary {
+  @include button-variant($secondaryColor, $primaryColor);
+  border-width: 5px !important;
+}

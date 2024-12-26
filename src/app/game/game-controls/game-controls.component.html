@@ -1,11 +1,16 @@
-<div class="h-100 d-flex flex-column justify-content-center align-items-center">
-  <button class="btn btn-outline-info" (click)="openPayTableModal()">Pay Table</button>
-  <button class="btn btn-outline-info" (click)="openGameHistoryModal()">Game History</button>
-  <button class="btn btn-outline-info" (click)="openBetModal()">Bet: ${{ bet.toFixed(2) }}</button>
-  @if (gameState === GameState.STARTED) {
-    <button class="btn btn-primary" (click)="revealCards()">Reveal cards</button>
-  } @else {
-    <button class="btn btn-primary" (click)="startGame()">Wager</button>
-  }
-  <div>Balance: ${{ balance.toFixed(2) }}</div>
+<div class="game-controls h-100 d-flex flex-column justify-content-between align-items-center">
+  <div class="d-flex flex-column w-100">
+    <button class="btn btn-secondary mb-1" (click)="openPayTableModal()">Paytable</button>
+    <button class="btn btn-secondary" (click)="openGameHistoryModal()">Game History</button>
+  </div>
+  <div class="d-flex flex-column w-100">
+    <button class="btn btn-primary mb-1" (click)="openBetModal()">Bet: ${{ bet.toFixed(2) }}</button>
+    @if (gameState === GameState.STARTED) {
+      <button class="btn btn-primary mb-1" (click)="revealCards()">Reveal cards</button>
+    } @else {
+      <button class="btn btn-secondary mb-1" (click)="startGame()">Wager</button>
+    }
+    <div>Balance: ${{ balance.toFixed(2) }}</div>
+  </div>
+  <div></div>
 </div>

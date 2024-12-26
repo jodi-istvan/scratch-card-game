@@ -9,7 +9,7 @@
     @if (gameHistoryList.length > 0) {
       @for (gameHistory of gameHistoryList; track gameHistory.time; let last = $last) {
         <div>
-          <div>Time: {{ gameHistory.time | date: "YYYY/MM/dd" }}</div>
+          <div>Time: {{ gameHistory.time | date: "YYYY-MM-dd HH:mm:ss" }}</div>
           <div>Bet Value: ${{ gameHistory.bet.toFixed(2) }}</div>
           <div>
             <span>Symbols: </span>
