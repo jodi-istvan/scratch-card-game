@@ -7,12 +7,14 @@ import {
   OnInit,
   ViewChild
 } from '@angular/core';
-import {Application, Container, ContainerChild,} from 'pixi.js';
+import {Application, Assets, Container, ContainerChild, Rectangle,} from 'pixi.js';
 import {Card} from './pixi-components/card';
 import {GameService, GameState} from './game-service/game.service';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {filter} from 'rxjs';
+import {filter, Subscription} from 'rxjs';
 import {GameResultModalComponent} from './game-result-modal/game-result-modal.component';
+import {GameMeta} from './game.meta';
+import {Table} from './pixi-components/Table';
 
 export interface CardData {
   symbol: number;
@@ -56,17 +58,10 @@ export class GameComponent implements OnInit, OnDestroy {
 
   private readonly app: Application = new Application();
   private readonly cards: Card[] = [];
-  private readonly gameBackgroundColor = '#999999'
-
-  public readonly gameWidth = 500;
-  public readonly gameHeight = 600;
-
-  private readonly cardWidth = 175 * 0.7;
-  private readonly cardHeight = 250 * 0.7;
-
-  private readonly deckSize = 50000;
 
   private winningCardData: CardData | undefined = undefined;
+
+  private readonly subscriptions: Subscription[] = [];
 
   constructor(
     private gameService: GameService,
@@ -75,20 +70,18 @@ export class GameComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    await this.app.init({ width: this.gameWidth, height: this.gameHeight, backgroundAlpha: 0 });
+    await this.app.init({ width: GameMeta.gameWidth, height: GameMeta.gameHeight, backgroundAlpha: 0 });
+    await Assets.load(GameMeta.cardBackImageUrl);
+
     this.gameContainer.nativeElement.appendChild(this.app.canvas);
 
-    const table = this.createTable();
+    const table = new Table(GameMeta.tableRows, GameMeta.tableCols, GameMeta.tableCardGap);
     this.app.stage.addChild(table);
 
     this.generateCardGraphics().forEach(card => {
       this.cards.push(card);
       table.addChild(card);
-    })
-
-    this.gameService.gameState$
-      .pipe(filter(gameState => gameState === GameState.WAITING))
-      .subscribe()
+    });
 
     this.gameService.gameState$
       .pipe(filter(gameState => gameState === GameState.STARTED))
@@ -123,8 +116,11 @@ export class GameComponent implements OnInit, OnDestroy {
       });
 
     this.gameService.revealCards$.subscribe(() => {
-      this.cards.forEach(card =>
-        setTimeout(card.flip.bind(card), this.generateCardFlipTimeout()));
+      this.cards.forEach(card => {
+        if (!card.isFlipped) {
+          setTimeout(card.flip.bind(card), this.generateCardFlipTimeout())
+        }
+      });
     });
   }
 
@@ -133,13 +129,11 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    /**
-     * Unsubscribe
-     */
+    this.subscriptions.forEach(sub => sub.unsubscribe());
   }
 
   private generateRandomCard(): CardData {
-    const random = Math.ceil(Math.random() * this.deckSize);
+    const random = Math.ceil(Math.random() * GameMeta.deckSize);
 
     let weightSum = 0;
     for (let i = 0; i < cardDataList.length; i++) {
@@ -166,11 +160,9 @@ export class GameComponent implements OnInit, OnDestroy {
         const card = new Card(
           cards[cardIndex].symbol,
           cards[cardIndex].multiplier * this.gameService.bet$.value,
-          this.cardWidth,
-          this.cardHeight
         );
-        card.x = col * (this.cardWidth + cardMargin) + this.cardWidth / 2;
-        card.y = row * (this.cardHeight + cardMargin) + this.cardHeight / 2;
+        card.x = col * (GameMeta.cardWidth + cardMargin) + GameMeta.cardWidth / 2;
+        card.y = row * (GameMeta.cardHeight + cardMargin) + GameMeta.cardHeight / 2;
         card.addFlipEventListener(this.onCardFlip.bind(this));
         cardGraphicsList.push(card);
       }
@@ -202,18 +194,6 @@ export class GameComponent implements OnInit, OnDestroy {
     return generatedCards;
   }
 
-  private createTable(): Container {
-    const rows = 3;
-    const cols = 3;
-    const cardMargin = 20;
-
-    const tableContainer = new Container();
-    tableContainer.x = this.app.screen.width / 2 - ((cols * this.cardWidth + (cols - 1) * cardMargin) / 2);
-    tableContainer.y = this.app.screen.height / 2 - ((rows * this.cardHeight + (rows - 1) * cardMargin) / 2);
-
-    return tableContainer;
-  }
-
   private openGameResultModal(): void {
     const modalRef = this.modalService.open(GameResultModalComponent, {
       centered: true,
@@ -226,8 +206,6 @@ export class GameComponent implements OnInit, OnDestroy {
   }
 
   public onCardFlip(): void {
-    console.log(this.cards)
-    console.log(this.winningCardData)
     const everyCardFlipped = this.cards.every(card => card.isFlipped);
     if (everyCardFlipped && this.gameService.gameState$.value !== GameState.ENDED) {
       if (this.winningCardData) {
@@ -236,10 +214,6 @@ export class GameComponent implements OnInit, OnDestroy {
             card.addWinningStyle()
           }
         }
-      } else {
-        /**
-         * Handle lose case
-         */
       }
       this.gameService.gameState$.next(GameState.ENDED);
     }
