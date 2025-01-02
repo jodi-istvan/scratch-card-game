@@ -1,6 +1,6 @@
-# ScratchCardGame
+# Scratch Card Game
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.0.4.
+Simple Scratch Card Game created using Angular 19 and PixiJS 8.
 
 ## Development server
 

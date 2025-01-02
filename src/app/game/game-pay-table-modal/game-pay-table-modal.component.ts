@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {CardData, cardDataList} from '../game.component';
+import {Card} from '../../pixi/interfaces/card.interface';
 
 @Component({
   selector: 'app-game-pay-table-modal',
@@ -10,13 +10,13 @@ import {CardData, cardDataList} from '../game.component';
 })
 export class GamePayTableModalComponent {
 
-  public payTable: CardData[] = [];
+  public payTable: Card[] = [];
   public bet: number = 1;
   public deckSize: number = 1;
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  close() {
+  protected close() {
     this.activeModal.close();
   }
 }

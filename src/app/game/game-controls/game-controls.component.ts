@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
 import {GameBetModalComponent} from '../game-bet-modal/game-bet-modal.component';
-import {cardDataList, GameBet} from '../game.component';
 import {GameService, GameState} from '../game-service/game.service';
 import {GameHistoryModalComponent} from '../game-history-modal/game-history-modal.component';
 import {GamePayTableModalComponent} from '../game-pay-table-modal/game-pay-table-modal.component';
+import {cardVariations, GameBet} from '../../pixi/config';
 
 @Component({
   selector: 'app-game-controls',
@@ -46,7 +46,7 @@ export class GameControlsComponent implements OnInit {
     });
   }
 
-  public openGameHistoryModal(): void {
+  protected openGameHistoryModal(): void {
     const modalRef = this.modalService.open(GameHistoryModalComponent, {
       centered: true,
       scrollable: true,
@@ -55,19 +55,19 @@ export class GameControlsComponent implements OnInit {
     modalRefComponent.gameHistoryList = this.gameService.gameHistory;
   }
 
-  public openPayTableModal(): void {
+  protected openPayTableModal(): void {
     const modalRef = this.modalService.open(GamePayTableModalComponent, {
       centered: true,
       scrollable: true,
     });
     const modalRefComponent = modalRef.componentInstance as GamePayTableModalComponent;
-    modalRefComponent.payTable = cardDataList.slice(0, cardDataList.length - 1);
+    modalRefComponent.payTable = cardVariations.slice(0, cardVariations.length - 1);
     modalRefComponent.bet = this.gameService.bet$.value;
     modalRefComponent.deckSize = 50000;
   }
 
-  public openBetModal(): void {
-    if (this.gameService.gameState$.value === GameState.STARTED) return;
+  protected openBetModal(): void {
+    if (this.gameService.gameState$.value === GameState.WAGERED) return;
 
     const modalRef = this.modalService.open(GameBetModalComponent, {
       centered: true,
@@ -79,11 +79,14 @@ export class GameControlsComponent implements OnInit {
       () => this.gameService.bet$.next(modalRefComponent.selectedBet))
   }
 
-  startGame() {
-    this.gameService.gameState$.next(GameState.STARTED)
+  protected wager() {
+    if (this.gameService.gameState$.value === GameState.ENDED) {
+      this.gameService.gameState$.next(GameState.CARDS_PAINTED);
+    }
+    this.gameService.gameState$.next(GameState.WAGERED);
   }
 
-  revealCards(): void {
+  protected revealCards(): void {
     this.gameService.revealCards$.next();
   }
 

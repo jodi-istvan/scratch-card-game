@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {GameHistory} from '../game.component';
+import {GameHistory} from '../../pixi/interfaces/game-history.interface';
 
 @Component({
   selector: 'app-game-history-modal',
@@ -14,7 +14,7 @@ export class GameHistoryModalComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  close() {
+  protected close() {
     this.activeModal.close();
   }
 }
