@@ -21,7 +21,7 @@ export class GameService {
     return this._gameHistory;
   }
 
-  public addGameHistory(gameHistory: GameHistory) {
+  public addGameHistory(gameHistory: GameHistory): void {
     this.gameHistory.unshift(gameHistory);
     if (this.gameHistory.length > 20) {
       this.gameHistory.pop();

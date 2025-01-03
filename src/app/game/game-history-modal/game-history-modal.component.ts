@@ -14,7 +14,7 @@ export class GameHistoryModalComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  protected close() {
+  protected close(): void {
     this.activeModal.close();
   }
 }

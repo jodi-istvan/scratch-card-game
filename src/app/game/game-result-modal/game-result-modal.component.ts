@@ -13,9 +13,7 @@ export class GameResultModalComponent {
 
   constructor(public activeModal: NgbActiveModal) {}
 
-  protected close() {
+  protected close(): void {
     this.activeModal.close(this.amountWon);
   }
 }
-
-

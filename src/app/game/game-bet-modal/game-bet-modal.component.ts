@@ -17,7 +17,7 @@ export class GameBetModalComponent {
     private activeModal: NgbActiveModal
   ) {}
 
-  protected close() {
+  protected close(): void {
     this.activeModal.close(this.selectedBet);
   }
 }

@@ -1,4 +1,4 @@
-import {Container, Graphics} from 'pixi.js';
+import {Container} from 'pixi.js';
 import {CardContainer} from './card-container';
 import {Card} from '../interfaces/card.interface';
 import {Game} from '../game';
@@ -49,7 +49,6 @@ export class TableContainer extends Container {
         cardContainer.y = row * (GameConfig.cardHeight + this.gap) + GameConfig.cardHeight / 2;
         cardContainer.interactive = true;
         cardContainer.addFlipEventListener(this.onCardFlip.bind(this));
-        cardContainer.on('cardFlipped', () => console.log(123))
         this.cardContainers.push(cardContainer);
         this.addChild(cardContainer);
       }

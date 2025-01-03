@@ -2,7 +2,18 @@
 
 Simple Scratch Card Game created using Angular 19 and PixiJS 8.
 
-## Development server
+## Installation Guide
+
+1. Make sure that you are using one of the following Node versions: 	`^18.19.1 || ^20.11.1 || ^22.0.0`. 
+2. Install the Angular CLI
+```bash
+npm install -g @angular/cli
+```
+3. From the root of the project, install the Node packages
+```bash
+npm install
+```
+## Run the app
 
 To start a local development server, run:
 
@@ -12,48 +23,14 @@ ng serve
 
 Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
 
-## Code scaffolding
+## How to play the game
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+1. First you need to select the bet you want to play with by clicking on the **Bet** button. The selected bet will essentially be the multiplier for the prize you win.
+2. After selecting the bet, you need to click the **Wager** button. Once you wagered, you will no longer be able to change the bet.
+3. In order to flip the cards, you can click on the cards one by one, or click on the **Reveal cards** button.
+4. In order to win, you need to have 3 identical prizes(symbols) among the cards you've been dealt. In this case, a popup with the amount won will be displayed, and you balance will be incremented. Otherwise, you will be presented with the *You lost* popup.
 
-```bash
-ng generate component component-name
-```
+## Menu items
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- Click on the **Paytable** button to open a popup with the possible prizes you can win. The prizes will be calculated based on the selected bet.
+- Click on the **Game History** button to open a popup with the details of the last 20 games you played.

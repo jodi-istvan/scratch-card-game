@@ -64,6 +64,12 @@ export class CardContainer extends Container {
     const ticker = new Ticker();
     let elapsed = 0;
 
+    /**
+     * As time elapses, it calculates a value which goes from 1 to 0 and then back to 1
+     * using the absolute value of the cosine result. This is used to scale the width of
+     * the card from 1 to 0, change the graphics and then scale back from 0 to 1, resulting
+     * in a card flip animation.
+     */
     ticker.add((deltaTime) => {
       elapsed += deltaTime.deltaMS;
 

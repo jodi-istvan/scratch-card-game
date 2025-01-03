@@ -79,7 +79,7 @@ export class GameControlsComponent implements OnInit {
       () => this.gameService.bet$.next(modalRefComponent.selectedBet))
   }
 
-  protected wager() {
+  protected wager(): void {
     if (this.gameService.gameState$.value === GameState.ENDED) {
       this.gameService.gameState$.next(GameState.CARDS_PAINTED);
     }
